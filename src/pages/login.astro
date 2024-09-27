@@ -1,0 +1,10 @@
+---
+import FormLogin from '@/components/reactive/FormLogin';
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout title='login' description=''>
+  <main class='mx-auto flex w-full max-w-screen-lg items-center justify-center'>
+    <FormLogin client:visible />
+  </main>
+</Layout>

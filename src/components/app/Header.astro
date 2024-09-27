@@ -1,0 +1,16 @@
+---
+import Avatar from '../reactive/Avatar';
+---
+
+<header class='h-14 gap-2 bg-blue-700'>
+  <div
+    class='mx-auto flex h-full w-full max-w-screen-lg items-center justify-between px-2 text-white'
+  >
+    <nav class='flex gap-2'>
+      <a href='/'>Home</a>
+      <a href='/about'>About</a>
+      <a href='/login'>Auth</a>
+    </nav>
+    <Avatar transition:persist client:visible />
+  </div>
+</header>
