@@ -38,6 +38,7 @@ export default function FormLogin() {
 
     if (result.ok && result.body) {
       authLogin(result.body);
+      window.location.replace('/admin');
     } else {
       authError(result.error?.message ?? 'Error');
     }
@@ -50,6 +51,7 @@ export default function FormLogin() {
     const result = await loginWithEmailAndPassword(state.email, state.password);
     if (result.ok && result.body) {
       authLogin(result.body);
+      window.location.replace('/admin');
     } else {
       authError(result.error?.message ?? 'Error');
     }
@@ -70,6 +72,7 @@ export default function FormLogin() {
 
     if (result.ok && result.body) {
       authLogin(result.body);
+      window.location.replace('/admin');
     } else {
       authError(result.error?.message ?? 'Error');
     }

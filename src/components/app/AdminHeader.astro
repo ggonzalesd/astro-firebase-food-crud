@@ -1,0 +1,32 @@
+---
+import { getUserPayload } from '@/utils/privileges';
+
+const payload = await getUserPayload(Astro);
+
+console.log(payload);
+---
+
+<header class='w-24 bg-zinc-300'>
+  <div
+    class='fixed left-0 top-0 flex h-screen w-24 flex-col items-center justify-between bg-red-500'
+  >
+    <span class='p-4 font-bold text-white'>Admin</span>
+    <nav class='flex w-full flex-col'>
+      <a
+        class='flex w-full items-center justify-center bg-red-700 py-2 hover:bg-red-600'
+        href='/'>App</a
+      >
+      <a
+        class='flex w-full items-center justify-center bg-red-700 py-2 hover:bg-red-600'
+        href='/admin'>Home</a
+      >
+      <a
+        class='flex w-full items-center justify-center bg-red-700 py-2 hover:bg-red-600'
+        href='/admin/users'>Users</a
+      >
+    </nav>
+    <div>
+      <button>Logout</button>
+    </div>
+  </div>
+</header>

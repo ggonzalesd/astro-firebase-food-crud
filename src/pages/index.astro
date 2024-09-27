@@ -1,10 +1,23 @@
 ---
 import Foods from '@/components/reactive/Foods';
 import Layout from '@/layouts/Layout.astro';
-// cWK6hJKA5ogdoY1DkAzRDZeilwx2
+
+import { getAllFoods } from '@/firebase/server';
+
+const foods = await getAllFoods();
 ---
 
 <Layout title='Welcome to Astro.' description=''>
   <span>Index Page</span>
+  <div>
+    {
+      foods.map(({ name, description }) => (
+        <div>
+          <span>{name}</span>
+          <span>{description}</span>
+        </div>
+      ))
+    }
+  </div>
   <Foods client:visible />
 </Layout>

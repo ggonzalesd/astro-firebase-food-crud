@@ -15,13 +15,13 @@ export const loginWithGoogle = async () => {
     const result = await signInWithPopup(firebaseAuth, googleProvider);
 
     const { displayName, email, photoURL, uid } = result.user;
-    const token = await result.user.getIdToken();
+    const payload = await result.user.getIdTokenResult();
 
     return {
       ok: true,
       body: {
+        payload,
         uid,
-        token,
         display: displayName,
         email,
         src: photoURL,
@@ -53,7 +53,7 @@ export const registerWithEmailAndPassword = async (
     );
 
     const { uid, photoURL } = response.user;
-    const token = await response.user.getIdToken();
+    const payload = await response.user.getIdTokenResult();
 
     if (!!firebaseAuth.currentUser)
       await updateProfile(firebaseAuth.currentUser, { displayName });
@@ -61,8 +61,8 @@ export const registerWithEmailAndPassword = async (
     return {
       ok: true,
       body: {
+        payload,
         uid,
-        token,
         display: displayName,
         email,
         src: photoURL,
@@ -93,13 +93,13 @@ export const loginWithEmailAndPassword = async (
     );
 
     const { uid, photoURL, displayName } = response.user;
-    const token = await response.user.getIdToken();
+    const payload = await response.user.getIdTokenResult();
 
     return {
       ok: true,
       body: {
+        payload,
         uid,
-        token,
         display: displayName,
         email,
         src: photoURL,

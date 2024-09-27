@@ -1,14 +1,12 @@
 import {
-  collection,
-  getDocs,
   type DocumentData,
   type QueryDocumentSnapshot,
-} from 'firebase/firestore/lite';
-import { firebaseDatabase } from './config';
+} from 'firebase-admin/firestore';
+import { serverFirestore } from './config';
 
 import type { Food } from '@/models/food.model';
 
-const foodCollection = collection(firebaseDatabase, 'foods').withConverter({
+const foodCollection = serverFirestore.collection('foods').withConverter({
   toFirestore(doc: Food): DocumentData {
     return doc;
   },
@@ -18,6 +16,6 @@ const foodCollection = collection(firebaseDatabase, 'foods').withConverter({
 });
 
 export const getAllFoods = async () => {
-  const data = await getDocs(foodCollection);
+  const data = await foodCollection.get();
   return data.docs.map((doc) => doc.data());
 };

@@ -1,9 +1,10 @@
+import type { Food } from '@/models/food.model';
 import { useEffect, useState } from 'react';
 
-import { getAllFoods, type FoodType } from '@/firebase/client';
+import { getAllFoods } from '@/firebase/client';
 
 export default function Foods() {
-  const [foods, setFoods] = useState<FoodType[]>([]);
+  const [foods, setFoods] = useState<Food[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {

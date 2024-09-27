@@ -1,0 +1,15 @@
+---
+// import type { DecodedIdToken } from 'firebase-admin/auth';
+import AdminLayout from '@/layouts/AdminLayout.astro';
+import { Privileges, getUserPayload, onlyPrivileges } from '@/utils/privileges';
+
+const payload = await getUserPayload(Astro);
+
+if (!onlyPrivileges(Privileges.READ, payload)) {
+  return Astro.redirect('/login');
+}
+---
+
+<AdminLayout title='Admin Section'>
+  <span>Admin Page</span>
+</AdminLayout>
