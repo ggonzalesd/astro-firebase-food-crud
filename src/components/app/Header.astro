@@ -1,15 +1,63 @@
 ---
+import cn from 'classnames';
+import MenuSvg from '@/components/icons/MenuSvg.astro';
+import LocationSvg from '@/components/icons/LocationSvg.astro';
+import LoginSvg from '@/components/icons/LoginSvg.astro';
 
+const routes = [
+  {
+    display: 'Menu',
+    path: '/',
+    Icon: MenuSvg,
+  },
+  {
+    display: '¿Dónde estamos?',
+    path: '/about',
+    Icon: LocationSvg,
+  },
+  {
+    display: 'Ingresar',
+    path: '/login',
+    Icon: LoginSvg,
+  },
+];
 ---
 
-<header class='h-14 gap-2 bg-blue-700'>
+<header class='fixed left-0 top-0 z-10 h-10 w-full gap-2'>
   <div
     class='mx-auto flex h-full w-full max-w-screen-lg items-center justify-between px-2 text-white'
   >
-    <nav class='flex gap-2'>
-      <a href='/'>Home</a>
-      <a href='/about'>About</a>
-      <a href='/login'>Auth</a>
+    <span>Logo</span>
+
+    <nav class='flex gap-4 md:gap-2'>
+      {
+        routes.map(({ path, display, Icon }) => (
+          <a
+            href={path}
+            class={cn(
+              'flex items-center gap-2 underline-offset-4 hover:underline',
+              { hidden: path === '/login' }
+            )}
+          >
+            <span class='hidden md:inline'>{display}</span>
+            <span class='sr-only'>{display}</span>
+            <Icon class='inline size-8 md:hidden' />
+          </a>
+        ))
+      }
     </nav>
   </div>
 </header>
+
+<script is:inline>
+  const login = document.querySelector('a[href="/login"]');
+  if (login && localStorage.getItem('x-ok-loggin') === 'active') {
+    login.classList.toggle('hidden', false);
+  }
+</script>
+
+<style scoped>
+  a:hover {
+    text-shadow: 0px 0px 15px white;
+  }
+</style>

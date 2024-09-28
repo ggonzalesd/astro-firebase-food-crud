@@ -1,32 +1,67 @@
 ---
 import { getUserPayload } from '@/utils/privileges';
+import LogoutButton from '@/components/reactive/LogoutButton';
+import AppSvg from '../icons/AppSvg.astro';
+import FoodSvg from '../icons/FoodSvg.astro';
+import MenuSvg from '../icons/MenuSvg.astro';
+import UsersSvg from '../icons/UsersSvg.astro';
+import avatar from '@/assets/avatar.svg';
 
 const payload = await getUserPayload(Astro);
 
-console.log(payload);
+const routes = [
+  {
+    path: '/',
+    display: 'App',
+    Icon: AppSvg,
+  },
+  {
+    path: '/admin',
+    display: 'Menu',
+    Icon: MenuSvg,
+  },
+  {
+    path: '/admin/foods',
+    display: 'Platos',
+    Icon: FoodSvg,
+  },
+  {
+    path: '/admin/users',
+    display: 'Users',
+    Icon: UsersSvg,
+  },
+];
 ---
 
-<header class='w-24 bg-zinc-300'>
+<header class='relative h-12 w-full bg-zinc-300 text-black md:h-full md:w-24'>
   <div
-    class='fixed left-0 top-0 flex h-screen w-24 flex-col items-center justify-between bg-red-500'
+    class='fixed left-0 top-0 flex h-12 w-full flex-row items-center justify-between border-r-[1px] border-zinc-400 bg-zinc-300 md:h-screen md:w-24 md:flex-col'
   >
-    <span class='p-4 font-bold text-white'>Admin</span>
-    <nav class='flex w-full flex-col'>
-      <a
-        class='flex w-full items-center justify-center bg-red-700 py-2 hover:bg-red-600'
-        href='/'>App</a
-      >
-      <a
-        class='flex w-full items-center justify-center bg-red-700 py-2 hover:bg-red-600'
-        href='/admin'>Home</a
-      >
-      <a
-        class='flex w-full items-center justify-center bg-red-700 py-2 hover:bg-red-600'
-        href='/admin/users'>Users</a
-      >
-    </nav>
-    <div>
-      <button>Logout</button>
+    <img
+      src={payload?.picture ?? avatar.src}
+      class='m-2 size-8 rounded-md bg-zinc-900'
+      alt={payload?.email}
+    />
+    <div class='flex flex-grow items-center justify-center'>
+      <nav class='flex w-full px-2 md:flex-col'>
+        {
+          routes.map(({ path, display, Icon }) => (
+            <a
+              class='group flex w-full items-center justify-center py-2'
+              href={path}
+            >
+              <span class='hidden w-full items-center justify-center rounded-md border-[1px] border-zinc-400 bg-zinc-300 group-hover:bg-zinc-200 md:flex'>
+                {display}
+              </span>
+              <span class='sr-only'>{display}</span>
+              <Icon class='inline-block size-8 text-zinc-800 md:hidden' />
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+    <div class='flex flex-col p-2 md:w-full'>
+      <LogoutButton client:load />
     </div>
   </div>
 </header>

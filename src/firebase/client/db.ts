@@ -1,6 +1,7 @@
 import {
   collection,
   getDocs,
+  orderBy,
   type DocumentData,
   type QueryDocumentSnapshot,
 } from 'firebase/firestore/lite';

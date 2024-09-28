@@ -41,9 +41,10 @@ export function authChecking() {
 
 export function authLogin(user: UserType) {
   localStorage.setItem(AUTH_KEY, JSON.stringify(user));
+  console.log(user.payload.token);
   Cookies.set(AUTH_TOKEN, user.payload.token, {
     expires: 1,
-    secure: true,
+    secure: import.meta.env.PROD,
     sameSite: 'strict',
   });
   authStore.set({ user, error: undefined, status: 'AUTHENTICATED' });

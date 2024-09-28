@@ -1,6 +1,5 @@
 ---
 import AdminHeader from '@/components/app/AdminHeader.astro';
-import { ViewTransitions } from 'astro:transitions';
 
 interface Props {
   title: string;
@@ -16,10 +15,11 @@ const { title } = Astro.props;
     <meta name='viewport' content='width=device-width' />
     <link rel='icon' type='image/svg+xml' href='/favicon.svg' />
     <meta name='generator' content={Astro.generator} />
-    <ViewTransitions />
     <title>{title}</title>
   </head>
-  <body class='flex h-full min-h-screen w-full'>
+  <body
+    class='flex h-full w-full flex-col md:h-full md:min-h-screen md:flex-row'
+  >
     <AdminHeader />
     <main class='flex-grow'>
       <slot />

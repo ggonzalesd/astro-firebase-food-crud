@@ -23,7 +23,7 @@ export default function FormLogin() {
   const $auth = useStore(authStore);
   const disabled = useMemo(() => $auth.status === 'CHECKING', [$auth.status]);
 
-  const [view, setView] = useState<'register' | 'login'>('register');
+  const [view, setView] = useState<'register' | 'login'>('login');
   const [state, setState] = useState(initialState);
 
   // Change Inputs
@@ -79,7 +79,7 @@ export default function FormLogin() {
   };
 
   return (
-    <section className='flex flex-col gap-2 rounded-md bg-zinc-100 p-4'>
+    <section className='flex flex-col gap-2 rounded-md bg-zinc-100 p-4 shadow-md shadow-black/20'>
       <div className='grid grid-cols-2 gap-2'>
         <button
           disabled={disabled}
