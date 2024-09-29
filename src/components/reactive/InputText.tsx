@@ -29,7 +29,7 @@ const InputText = React.forwardRef<HTMLInputElement, Props>(
         <span>{labelName ?? name}</span>
         <input
           disabled={disabled}
-          className='rounded-md bg-zinc-300 px-2 py-1 text-zinc-900 placeholder-zinc-700 disabled:pointer-events-none disabled:text-zinc-500'
+          className='rounded-md border-[1px] border-zinc-400 bg-zinc-300 px-2 py-1 text-zinc-900 placeholder-zinc-700 disabled:pointer-events-none disabled:text-zinc-500'
           ref={ref}
           id={id}
           type={type}

@@ -1,0 +1,47 @@
+---
+interface Props {
+  food: MenuFoodType;
+}
+
+const { food } = Astro.props;
+
+const { image, name, price, extra } = food;
+---
+
+<div>
+  <div class='flex items-center gap-2'>
+    {
+      !!image ? (
+        <img src={image} class='size-12' />
+      ) : (
+        <div class='size-12 bg-zinc-500' />
+      )
+    }
+    <div class='flex flex-col'>
+      <span>{name}</span>
+      <div class='flex gap-2'>
+        <div>
+          <span class='rounded-full bg-green-600 px-2 py-1 text-sm text-white'>
+            S/. {price ?? 6}
+          </span>
+        </div>
+        <div class='flex flex-wrap gap-2 py-1'>
+          {
+            extra &&
+              extra.map((ex) => (
+                <div class='flex items-center text-xs leading-4 text-white'>
+                  {ex.price > 0 && (
+                    <span class='rounded-l-sm bg-yellow-700 px-1'>
+                      + S/. {ex.price}
+                    </span>
+                  )}
+                  <span class='rounded-r-sm bg-sky-600 px-1'>{ex.name}</span>
+                </div>
+              ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class='my-2 h-[1px] w-full bg-zinc-400'></div>
+</div>

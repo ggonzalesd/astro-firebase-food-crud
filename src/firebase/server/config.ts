@@ -2,6 +2,7 @@ import admin from 'firebase-admin';
 import { initializeApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { getAuth } from 'firebase-admin/auth';
+import { getStorage } from 'firebase-admin/storage';
 
 const { credential } = admin;
 
@@ -9,11 +10,12 @@ const { credential } = admin;
 if (admin.apps.length < 1)
   initializeApp({
     credential: credential.cert({
+      projectId: import.meta.env.SECRET_SERVER_FIREBASE_PROJECT_ID,
       clientEmail: import.meta.env.SECRET_SERVER_FIREBASE_CLIENT_EMAIL,
       privateKey: import.meta.env.SECRET_SERVER_FIREBASE_PRIVATE_KEY,
-      projectId: import.meta.env.SECRET_SERVER_FIREBASE_PROJECT_ID,
     }),
   });
 
 export const serverAuth = getAuth();
 export const serverFirestore = getFirestore();
+export const serverStorage = getStorage();

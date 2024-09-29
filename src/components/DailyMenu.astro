@@ -1,25 +1,24 @@
 ---
-import { getAllFoods } from '@/firebase/server';
+import { getAllFoods, getMenu } from '@/firebase/server';
+import FoodMenu from './FoodMenu.astro';
+import CategoryMenu from './CategoryMenu.astro';
 
-const foods = await getAllFoods();
+// const foods = await getAllFoods();
+const menu = await getMenu();
 ---
 
 <section class='flex text-zinc-700'>
-  <div menu-design class="border-r-2 border-dashed border-zinc-300"></div>
-  <div class='flex-grow bg-zinc-300 p-2 rounded-r-md'>
-    <span>{new Date().toISOString()}</span>
+  <div menu-design class='border-r-2 border-dashed border-zinc-300'></div>
+  <div class='flex-grow rounded-r-md bg-zinc-300 p-2'>
+    <span class="text-center text-xl font-bold justify-center flex">Menu Del Día</span>
     <div class='my-2 h-[1px] w-full bg-zinc-500'></div>
-    <div>
-      {
-        foods.map(({ name, description }) => (
-          <div class='flex flex-col'>
-            <span>{name}</span>
-            <span class='max-w-[20ch] text-xs'>{description}</span>
-          </div>
-          <div class='my-2  h-[1px] w-full bg-zinc-400'></div>
-        ))
-      }
-    </div>
+    {
+      menu && (
+        <CategoryMenu foods={menu.intro} title='Entradas' />
+        <CategoryMenu foods={menu.menu} title='Principal' />
+        <CategoryMenu foods={menu.other} title='Otros' />
+      )
+    }
   </div>
 </section>
 

@@ -1,0 +1,23 @@
+---
+import FoodMenu from './FoodMenu.astro';
+
+interface Props {
+  title: string;
+  foods: Array<MenuFoodType>;
+}
+
+const { title, foods } = Astro.props;
+---
+
+{
+  foods.length > 0 && (
+    <div>
+      <span>{title}</span>
+      <div class='grid grid-cols-1 gap-2 md:grid-flow-col md:grid-rows-5'>
+        {foods.map((food) => (
+          <FoodMenu food={food} />
+        ))}
+      </div>
+    </div>
+  )
+}

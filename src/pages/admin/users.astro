@@ -1,8 +1,9 @@
 ---
+import AdminLayout from '@/layouts/AdminLayout.astro';
+import LoadingView from '@/components/LoadingView.astro';
+import ListUsers from '@/components/admin/ListUsers';
 import { serverAuth } from '@/firebase/server/config';
 import { onlyPrivileges, Privileges, getUserPayload } from '@/utils/privileges';
-import AdminLayout from '@/layouts/AdminLayout.astro';
-import ListUsers from '@/components/admin/ListUsers';
 
 // Check Cookies
 const payload = await getUserPayload(Astro);
@@ -16,11 +17,6 @@ const result = await serverAuth.listUsers(10);
 
 <AdminLayout title='Users'>
   <ListUsers users={result.users} client:only='react'>
-    <div
-      slot='fallback'
-      class='flex h-full w-full flex-grow items-center justify-center'
-    >
-      <div>Loading...</div>
-    </div>
+    <LoadingView slot='fallback' />
   </ListUsers>
 </AdminLayout>
