@@ -38,7 +38,9 @@ export default function FormLogin() {
 
     if (result.ok && result.body) {
       authLogin(result.body);
-      window.location.replace('/admin');
+      window.location.replace(
+        '/admin/validate?token=' + result.body.payload.token,
+      );
     } else {
       authError(result.error?.message ?? 'Error');
     }
@@ -51,7 +53,9 @@ export default function FormLogin() {
     const result = await loginWithEmailAndPassword(state.email, state.password);
     if (result.ok && result.body) {
       authLogin(result.body);
-      window.location.replace('/admin');
+      window.location.replace(
+        '/admin/validate?token=' + result.body.payload.token,
+      );
     } else {
       authError(result.error?.message ?? 'Error');
     }
@@ -72,14 +76,16 @@ export default function FormLogin() {
 
     if (result.ok && result.body) {
       authLogin(result.body);
-      window.location.replace('/admin');
+      window.location.replace(
+        '/admin/validate?token=' + result.body.payload.token,
+      );
     } else {
       authError(result.error?.message ?? 'Error');
     }
   };
 
   return (
-    <section className='flex flex-col gap-2 rounded-md bg-zinc-100 p-4 shadow-md shadow-black/20'>
+    <section className='flex flex-col gap-2 rounded-md bg-zinc-100 p-4 text-black shadow-md shadow-black/20'>
       <div className='grid grid-cols-2 gap-2'>
         <button
           disabled={disabled}

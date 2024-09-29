@@ -86,7 +86,7 @@ export default function AddFood({ close, add }: Props) {
           />
           <Selector
             name='category'
-            values={['menu', 'entrada', 'extra', 'otro']}
+            values={['menu', 'intro', 'extra', 'other']}
             value={food.category}
             onChange={(value) =>
               setFood((state) => ({ ...state, category: value }))

@@ -16,8 +16,8 @@ const routes = [
     Icon: LocationSvg,
   },
   {
-    display: 'Ingresar',
-    path: '/login',
+    display: 'Admin',
+    path: '/admin',
     Icon: LoginSvg,
   },
 ];
@@ -36,7 +36,7 @@ const routes = [
             href={path}
             class={cn(
               'flex items-center gap-2 underline-offset-4 hover:underline',
-              { hidden: path === '/login' }
+              { hidden: path === '/admin' }
             )}
           >
             <span class='hidden md:inline'>{display}</span>
@@ -50,7 +50,7 @@ const routes = [
 </header>
 
 <script is:inline>
-  const login = document.querySelector('a[href="/login"]');
+  const login = document.querySelector('a[href="/admin"]');
   if (login && localStorage.getItem('x-ok-loggin') === 'active') {
     login.classList.toggle('hidden', false);
   }

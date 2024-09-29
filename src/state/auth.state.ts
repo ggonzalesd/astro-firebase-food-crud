@@ -1,9 +1,7 @@
 import type { IdTokenResult } from 'firebase/auth';
 import { atom, onMount } from 'nanostores';
-import Cookies from 'js-cookie';
 
 const AUTH_KEY = 'x-auth-user';
-const AUTH_TOKEN = 'user-token';
 
 interface UserType {
   uid: string | null;
@@ -35,23 +33,17 @@ onMount(authStore, () => {
 
 export function authChecking() {
   localStorage.removeItem(AUTH_KEY);
-  Cookies.remove(AUTH_TOKEN);
   authStore.set({ user: undefined, error: undefined, status: 'CHECKING' });
 }
 
 export function authLogin(user: UserType) {
   localStorage.setItem(AUTH_KEY, JSON.stringify(user));
-  Cookies.set(AUTH_TOKEN, user.payload.token, {
-    expires: 1,
-    secure: import.meta.env.PROD,
-    sameSite: 'strict',
-  });
+
   authStore.set({ user, error: undefined, status: 'AUTHENTICATED' });
 }
 
 export function authLogout() {
   localStorage.removeItem(AUTH_KEY);
-  Cookies.remove(AUTH_TOKEN);
   authStore.set({
     user: undefined,
     error: undefined,
@@ -61,6 +53,5 @@ export function authLogout() {
 
 export function authError(error: string) {
   localStorage.removeItem(AUTH_KEY);
-  Cookies.remove(AUTH_TOKEN);
   authStore.set({ user: undefined, error, status: 'NO_AUTHENTICATED' });
 }

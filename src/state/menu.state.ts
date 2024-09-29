@@ -12,12 +12,30 @@ type MenuStoreType = {
   selected?: MenuFoodType;
   index?: number;
   key?: string;
+  open: boolean;
+  disabled: boolean;
 };
 
 export const menuStore = atom<MenuStoreType>({
   menu: initialMenuStore,
   selected: undefined,
+  open: false,
+  disabled: false,
 });
+
+export const menuDisabled = (disabled: boolean) => {
+  menuStore.set({
+    ...menuStore.get(),
+    disabled,
+  });
+};
+
+export const menuClose = () => {
+  menuStore.set({
+    ...menuStore.get(),
+    open: false,
+  });
+};
 
 export function menuOpen(key: string) {
   menuStore.set({
@@ -25,11 +43,13 @@ export function menuOpen(key: string) {
     key,
     index: undefined,
     selected: undefined,
+    open: true,
   });
 }
 
 export function menuReset(menu?: MenuType) {
   menuStore.set({
+    ...menuStore.get(),
     menu: menu ?? initialMenuStore,
   });
 }
@@ -65,6 +85,8 @@ export function menuAddSelected() {
     }
 
     const newMenu: MenuStoreType = {
+      ...store,
+      open: false,
       selected: undefined,
       menu: { ...store.menu, [key]: array },
     };
@@ -107,6 +129,7 @@ export function menuSelectToEdit(
 ) {
   menuStore.set({
     ...menuStore.get(),
+    open: true,
     selected: { ...food, extra: food.extra && [...food.extra] },
     index,
     key,

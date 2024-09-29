@@ -69,7 +69,10 @@ export const foods = {
     }),
     handler: async (input, context) => {
       const token = context.cookies.get('user-token')?.value ?? '';
+      console.log(context.request.headers.get('cookie'));
+      console.log(context.request.headers);
       const result = await serverAuth.verifyIdToken(token);
+
       const priv =
         typeof result.privileges === 'number' ? result.privileges : 0;
 

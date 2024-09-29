@@ -22,7 +22,7 @@ export const menu = {
       other: z.array(menufoodschema),
     }),
     handler: async (input) => {
-      console.log(await setMenu(input));
+      return await setMenu(input);
     },
   }),
 };
