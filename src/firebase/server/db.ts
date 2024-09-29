@@ -93,6 +93,10 @@ const menuCollection = serverFirestore.collection('menu').withConverter({
 
 export const getMenu = async () => {
   const result = await menuCollection.doc('default').get();
-
   return result.data();
+};
+
+export const setMenu = async (menu: MenuType) => {
+  const result = await menuCollection.doc('default').set(menu);
+  return result.writeTime;
 };

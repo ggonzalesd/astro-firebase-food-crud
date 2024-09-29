@@ -48,9 +48,6 @@ export const foods = {
 
       const imageBuffer = Buffer.from(image, 'base64');
 
-      console.log(imageBuffer);
-      console.log(imageBuffer.byteLength);
-
       const imageUrl = await uploadImageBuffer(imageBuffer, payload.slug);
 
       const newFood = await saveOneFood({ ...payload, image: imageUrl });
