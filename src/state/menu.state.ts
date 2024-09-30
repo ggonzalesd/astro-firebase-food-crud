@@ -137,18 +137,41 @@ export function menuSelectToEdit(
 }
 
 export function menuSelect(food?: Food) {
-  const menu = menuStore.get();
-  menuStore.set({
-    ...menu,
-    selected: food && {
-      extra: [],
-      slug: food.slug,
-      image: food.image ?? '',
-      name: food.name,
-      description: food.description,
-      price: food.price,
-    },
-  });
+  const store = menuStore.get();
+  const key = store.key;
+
+  const selected: MenuFoodType | undefined = food && {
+    extra: [],
+    slug: food.slug,
+    image: food.image ?? '',
+    name: food.name,
+    description: food.description,
+    price: food.price,
+  };
+
+  if (
+    store.key !== 'menu' &&
+    selected &&
+    key &&
+    Object.keys(store.menu).includes(key)
+  ) {
+    let array = store.menu[key as keyof MenuType];
+    array.push(selected);
+
+    const newMenu: MenuStoreType = {
+      ...store,
+      open: false,
+      selected: undefined,
+      menu: { ...store.menu, [key]: array },
+    };
+
+    menuStore.set(newMenu);
+  } else {
+    menuStore.set({
+      ...store,
+      selected,
+    });
+  }
 }
 
 export function menuSelection(food: Food, hasExtra: boolean = false) {
@@ -157,5 +180,30 @@ export function menuSelection(food: Food, hasExtra: boolean = false) {
     menuSelectToggleExtra(food);
   } else {
     menuSelect(food);
+  }
+}
+
+export function menuItemMove(key: string, index: number, other: number) {
+  const store = menuStore.get();
+  const array = store.menu[key as keyof MenuType];
+  if (
+    !!key &&
+    array &&
+    index >= 0 &&
+    other >= 0 &&
+    index < array.length &&
+    other < array.length
+  ) {
+    const temp = array[index];
+    array[index] = array[other];
+    array[other] = temp;
+
+    menuStore.set({
+      ...store,
+      menu: {
+        ...store.menu,
+        [key]: array,
+      },
+    });
   }
 }

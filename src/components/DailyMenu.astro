@@ -7,16 +7,24 @@ import CategoryMenu from './CategoryMenu.astro';
 const menu = await getMenu();
 ---
 
-<section class='flex text-zinc-700'>
+<section class='flex max-w-[90vw] text-zinc-700'>
   <div menu-design class='border-r-2 border-dashed border-zinc-300'></div>
   <div class='flex-grow rounded-r-md bg-zinc-300 p-2'>
-    <span class="text-center text-xl font-bold justify-center flex">Menu Del Día</span>
+    <span class='flex justify-center text-center text-xl font-bold'
+      >Menu Del Día</span
+    >
     <div class='my-2 h-[1px] w-full bg-zinc-500'></div>
     {
       menu && (
-        <CategoryMenu foods={menu.intro} title='Entradas' />
-        <CategoryMenu foods={menu.menu} title='Principal' />
-        <CategoryMenu foods={menu.other} title='Otros' />
+        <div class='flex flex-col gap-4 md:flex-row'>
+          <div>
+            <CategoryMenu foods={menu.menu} title='Principal' />
+          </div>
+          <div>
+            <CategoryMenu foods={menu.intro} title='Entradas' />
+            <CategoryMenu foods={menu.other} title='Otros' />
+          </div>
+        </div>
       )
     }
   </div>
@@ -24,15 +32,16 @@ const menu = await getMenu();
 
 <style scoped>
   section {
-    transform: translateY(10px) rotate(-2deg) scale(1);
-    animation: header-bg-change ease forwards;
+    transform: translateY(5vh);
+    animation: daily-move ease forwards;
     animation-range: 0% 100%;
     animation-timeline: scroll();
+    box-shadow: 0px 0px 32px 8px #0008;
   }
 
-  @keyframes header-bg-change {
+  @keyframes daily-move {
     to {
-      transform: translateY(-10px) rotate(2deg) scale(1.1);
+      transform: translateY(-10vh);
     }
   }
 

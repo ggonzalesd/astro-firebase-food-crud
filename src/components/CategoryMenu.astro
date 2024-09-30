@@ -13,7 +13,7 @@ const { title, foods } = Astro.props;
   foods.length > 0 && (
     <div>
       <span>{title}</span>
-      <div class='grid grid-cols-1 gap-2 md:grid-flow-col md:grid-rows-5'>
+      <div class='flex flex-col'>
         {foods.map((food) => (
           <FoodMenu food={food} />
         ))}

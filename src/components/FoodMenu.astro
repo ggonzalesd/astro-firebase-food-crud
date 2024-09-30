@@ -17,15 +17,17 @@ const { image, name, price, extra } = food;
         <div class='size-12 bg-zinc-500' />
       )
     }
-    <div class='flex flex-col'>
+    <div class='flex flex-col text-xl'>
       <span>{name}</span>
       <div class='flex gap-2'>
-        <div>
-          <span class='rounded-full bg-green-600 px-2 py-1 text-sm text-white'>
+        <div class:list={price <= 0 ? 'hidden' : ''}>
+          <span
+            class='text-nowrap rounded-full bg-green-600 px-2 py-1 text-sm text-white'
+          >
             S/. {price ?? 6}
           </span>
         </div>
-        <div class='flex flex-wrap gap-2 py-1'>
+        <div class='flex max-w-32 flex-wrap gap-2 py-1'>
           {
             extra &&
               extra.map((ex) => (

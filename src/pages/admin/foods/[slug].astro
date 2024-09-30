@@ -1,0 +1,23 @@
+---
+import { getOneFoodBySlug } from '@/firebase/server';
+import AdminLayout from '@/layouts/AdminLayout.astro';
+import EditFoodView from '@/components/admin/EditFoodView';
+import LoadingView from '@/components/LoadingView.astro';
+import NotFoundResource from '@/components/NotFoundResource.astro';
+
+const slug = Astro.params.slug;
+
+const food = await getOneFoodBySlug(slug ?? '');
+---
+
+<AdminLayout title={`Edit Food ` + slug}>
+  {
+    food ? (
+      <EditFoodView food={food} client:only='react'>
+        <LoadingView slot='fallback' />
+      </EditFoodView>
+    ) : (
+      <NotFoundResource />
+    )
+  }
+</AdminLayout>

@@ -1,5 +1,6 @@
 ---
 import Header from '@/components/app/Header.astro';
+import Footer from '@/components/app/Footer.astro';
 import { ViewTransitions } from 'astro:transitions';
 
 interface Props {
@@ -21,8 +22,9 @@ const { title, description } = Astro.props;
     <ViewTransitions />
     <title>{title}</title>
   </head>
-  <body class='flex flex-col bg-zinc-900 text-white'>
+  <body class='flex flex-col justify-between bg-zinc-900 text-white'>
     <Header />
     <slot />
+    <Footer />
   </body>
 </html>

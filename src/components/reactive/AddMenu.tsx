@@ -25,7 +25,7 @@ export default function AddMenu({ foods }: Props) {
           </span>
           <div className='flex items-center gap-2 px-2'>
             <button
-              disabled={$menu.disabled}
+              disabled={$menu.disabled || !$menu.selected}
               className='rounded-md bg-green-500 px-1 disabled:pointer-events-none disabled:saturate-0'
               onClick={() => menuAddSelected()}
             >

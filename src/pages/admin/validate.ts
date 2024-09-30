@@ -20,7 +20,6 @@ export const GET: APIRoute = async ({ url, cookies, redirect }) => {
       throw new Error('No Token');
     }
   } catch (error) {
-    console.log(error);
     cookies.delete('user-token');
     return redirect('/login?error=true');
   }

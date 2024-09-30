@@ -3,14 +3,6 @@ import AdminLayout from '@/layouts/AdminLayout.astro';
 import LoadingView from '@/components/LoadingView.astro';
 import ListUsers from '@/components/admin/ListUsers';
 import { serverAuth } from '@/firebase/server/config';
-import { onlyPrivileges, Privileges, getUserPayload } from '@/utils/privileges';
-
-// Check Cookies
-const payload = await getUserPayload(Astro);
-
-if (!onlyPrivileges(Privileges.READ, payload)) {
-  return Astro.redirect('/login');
-}
 
 const result = await serverAuth.listUsers(10);
 ---

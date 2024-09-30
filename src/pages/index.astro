@@ -3,8 +3,13 @@ import Layout from '@/layouts/Layout.astro';
 import DailyMenu from '@/components/DailyMenu.astro';
 ---
 
-<Layout title='Welcome to Astro.' description=''>
-  <main class='flex aspect-square flex-col justify-between md:aspect-video'>
+<Layout
+  title='Restaurant Pichanaki'
+  description='Visita Restaurant Pichanaki, un restaurante pequeño y acogedor en Pichanaki, Junín. Ubicado en el corazón de un destino turístico, ofrecemos platos caseros con ingredientes frescos de la región. ¡Disfruta de la auténtica gastronomía peruana en un ambiente familiar!'
+>
+  <main
+    class='flex aspect-square flex-grow flex-col justify-between md:aspect-video'
+  >
     <div
       class='z-50 mx-auto flex w-full max-w-screen-lg flex-grow items-start justify-center'
     >
@@ -39,7 +44,7 @@ import DailyMenu from '@/components/DailyMenu.astro';
     z-index: -10;
     filter: blur(2px);
     background-image: url('/images/hero.jpg');
-    background-position: 50% 0;
+    background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
     width: 100%;

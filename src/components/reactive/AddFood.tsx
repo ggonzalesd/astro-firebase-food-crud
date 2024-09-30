@@ -3,11 +3,10 @@ import InputText from './InputText';
 import { actions, isInputError } from 'astro:actions';
 import type { Food } from '@/models/food.model';
 import Selector from './Selector';
-import ImageLoader from './ImageLoader';
+import ImageInput from './ImageInput';
 
 const newItemInitialize = {
   name: '',
-  slug: '',
   description: '',
   price: '6',
   image: '',
@@ -57,7 +56,6 @@ export default function AddFood({ close, add }: Props) {
 
   const inputs: Array<keyof typeof newItemInitialize> = [
     'name',
-    'slug',
     'description',
     'price',
   ];
@@ -78,7 +76,7 @@ export default function AddFood({ close, add }: Props) {
               onChange={onChangeNewFood}
             />
           ))}
-          <ImageLoader
+          <ImageInput
             name='image'
             onChange={(base64) =>
               setFood((state) => ({ ...state, image: base64 }))

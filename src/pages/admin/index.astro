@@ -1,16 +1,8 @@
 ---
-// import type { DecodedIdToken } from 'firebase-admin/auth';
+import AdminLayout from '@/layouts/AdminLayout.astro';
 import MenuView from '@/components/admin/MenuView';
 import LoadingView from '@/components/LoadingView.astro';
 import { getAllFoods, getMenu } from '@/firebase/server';
-import AdminLayout from '@/layouts/AdminLayout.astro';
-import { Privileges, getUserPayload, onlyPrivileges } from '@/utils/privileges';
-
-const payload = await getUserPayload(Astro);
-
-if (!onlyPrivileges(Privileges.READ, payload)) {
-  return Astro.redirect('/login');
-}
 
 const menu = await getMenu();
 const foods = await getAllFoods();

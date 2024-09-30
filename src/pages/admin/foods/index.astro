@@ -3,13 +3,6 @@ import AdminLayout from '@/layouts/AdminLayout.astro';
 import LoadingView from '@/components/LoadingView.astro';
 import FoodsView from '@/components/admin/FoodsView';
 import { getAllFoods } from '@/firebase/server';
-import { getUserPayload, onlyPrivileges, Privileges } from '@/utils/privileges';
-
-const payload = await getUserPayload(Astro);
-
-if (!onlyPrivileges(Privileges.READ, payload)) {
-  return Astro.redirect('/login');
-}
 
 const foods = await getAllFoods();
 ---

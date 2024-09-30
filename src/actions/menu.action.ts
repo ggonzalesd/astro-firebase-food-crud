@@ -1,5 +1,7 @@
 import { setMenu } from '@/firebase/server';
-import { defineAction } from 'astro:actions';
+import { serverAuth } from '@/firebase/server/config';
+import { onlyPrivileges, Privileges } from '@/utils/privileges';
+import { ActionError, defineAction } from 'astro:actions';
 import { z } from 'astro:schema';
 
 const simplefoodschema = z.object({
@@ -21,8 +23,20 @@ export const menu = {
       menu: z.array(menufoodschema),
       other: z.array(menufoodschema),
     }),
-    handler: async (input) => {
-      return await setMenu(input);
+    handler: async (input, context) => {
+      const token = context.cookies.get('user-token')?.value ?? '';
+      const result = await serverAuth.verifyIdToken(token);
+      const priv =
+        typeof result.privileges === 'number' ? result.privileges : 0;
+
+      if (!onlyPrivileges(Privileges.WRITE, priv)) {
+        throw new ActionError({
+          code: 'UNAUTHORIZED',
+          message: 'Not Privileges',
+        });
+      }
+
+      return `${await setMenu(input)}`;
     },
   }),
 };

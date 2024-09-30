@@ -7,10 +7,10 @@ export const resizeBlob = async (blob: Blob, width: number, height: number) => {
     const context = canvas.getContext('2d');
     const img = document.createElement('img');
     img.src = blobUrl;
-    img.onerror = function (e) {
-      reject('Error Image');
+    img.onerror = function () {
+      reject(new Error('Error Image'));
     };
-    img.onload = function (e) {
+    img.onload = function () {
       if (context) {
         context.scale(width / img.width, height / img.height);
         context.drawImage(img, 0, 0);
@@ -18,16 +18,25 @@ export const resizeBlob = async (blob: Blob, width: number, height: number) => {
           (canvasBlob) => {
             URL.revokeObjectURL(blobUrl);
             if (canvasBlob) resolve(canvasBlob);
-            else reject('No Blob found!');
+            else reject(new Error('No Blob found!'));
           },
           'image/jpeg',
           '0.5',
         );
       } else {
         URL.revokeObjectURL(blobUrl);
-        reject('No Context');
+        reject(new Error('No Context'));
       }
     };
   });
   return await newBlob.arrayBuffer();
+};
+
+export const arrayToBase64 = (resized: ArrayBuffer) => {
+  const buffer = new Uint8Array(resized);
+  const buffer_string = buffer.reduce(
+    (acc, c) => acc + String.fromCharCode(c),
+    '',
+  );
+  return btoa(buffer_string);
 };

@@ -33,7 +33,12 @@ export const getOneFoodBySlug = async (slug: string) => {
   if (snapshot.empty) {
     return undefined;
   }
-  return snapshot.docs.map((food) => food.data())[0];
+
+  return snapshot.docs.map((food) => ({ id: food.id, ...food.data() }))[0];
+};
+
+export const updateFood = async (id: string, food: Omit<Food, 'id'>) => {
+  await foodCollection.doc(id).set(food);
 };
 
 export const saveOneFood = async (food: Omit<Food, 'id'>) => {
