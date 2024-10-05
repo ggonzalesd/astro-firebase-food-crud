@@ -27,21 +27,21 @@ const routes = [
   <div
     class='z-50 mx-auto flex h-full w-full max-w-screen-lg items-center justify-between px-2 text-white'
   >
-    <span>Logo</span>
+    <a href='/'> <img src='/logo.svg' class='size-8' /> </a>
 
-    <nav class='flex gap-4 md:gap-2'>
+    <nav class='flex gap-6'>
       {
         routes.map(({ path, display, Icon }) => (
           <a
             href={path}
             class={cn(
-              'flex items-center gap-2 underline-offset-4 hover:underline',
+              'inline-flex items-center gap-1 underline-offset-4 hover:underline',
               { hidden: path === '/admin' }
             )}
           >
             <span class='hidden md:inline'>{display}</span>
             <span class='sr-only'>{display}</span>
-            <Icon class='inline size-8 md:hidden' />
+            <Icon class='inline size-8 md:size-6' />
           </a>
         ))
       }

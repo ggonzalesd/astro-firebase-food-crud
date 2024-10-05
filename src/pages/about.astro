@@ -4,6 +4,36 @@ import Layout from '@/layouts/Layout.astro';
 export const prerender = true;
 ---
 
-<Layout title='Welcome to Astro.' description=''>
-  <span>About page</span>
+<Layout
+  title='¿Dónde estamos?'
+  description='Nos encontramos en Pichanaki, una hermosa ciudad en la provincia de Chanchamayo, Junín, Perú. Nuestro restaurante está ubicado en la Mz H1 Lt 10, Jr. José Balta (última cuadra), en la zona de Paso la Breña, justo atrás del conocido colegio "Los Ángeles". Ven a visitarnos y disfruta de la mejor gastronomía en un entorno acogedor, rodeado de naturaleza y tradición.'
+>
+  <section
+    class='mx-auto grid w-full max-w-screen-lg flex-grow grid-cols-1 justify-between px-2 pt-14 md:grid-cols-2'
+  >
+    <div
+      class='flex size-full flex-col items-center justify-center gap-2 leading-8'
+    >
+      <h1 class='text-5xl font-bold'>¿Dónde nos encontramos?</h1>
+      <p>
+        Nos encontramos en Pichanaki, una hermosa ciudad en la provincia de
+        Chanchamayo, Junín, Perú. Nuestro restaurante está ubicado en la Mz H1
+        <b>Lt 10, Jr. José Balta</b> (última cuadra), en <b>Paseo la Breña</b>,
+        justo atrás del colegio <b>"Los Ángeles"</b>.
+      </p>
+      <p>
+        Ven a visitarnos y disfruta de la mejor gastronomía en un entorno
+        acogedor, rodeado de naturaleza y tradición.
+      </p>
+    </div>
+    <div class='flex size-full items-center justify-center p-2 md:p-8'>
+      <iframe
+        src={import.meta.env.PUBLIC_GOOGLE_MAPS_EMBEDDED}
+        class='aspect-square w-full rounded-md bg-zinc-300'
+        style={{ border: 0 }}
+        allowfullscreen=''
+        loading='lazy'
+        referrerpolicy='no-referrer-when-downgrade'></iframe>
+    </div>
+  </section>
 </Layout>

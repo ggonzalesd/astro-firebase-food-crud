@@ -2,7 +2,6 @@ import admin from 'firebase-admin';
 import { initializeApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { getAuth } from 'firebase-admin/auth';
-import { getStorage } from 'firebase-admin/storage';
 
 const { credential } = admin;
 
@@ -18,4 +17,3 @@ if (admin.apps.length < 1)
 
 export const serverAuth = getAuth();
 export const serverFirestore = getFirestore();
-export const serverStorage = getStorage();

@@ -1,21 +1,43 @@
 ---
-import { getAllFoods, getMenu } from '@/firebase/server';
-import FoodMenu from './FoodMenu.astro';
+import { getMenu } from '@/firebase/server';
 import CategoryMenu from './CategoryMenu.astro';
 
-// const foods = await getAllFoods();
-const menu = await getMenu();
+const date = new Date(new Date().getTime() - 5 * 60 * 60 * 1000);
+const startTime = Date.UTC(
+  date.getUTCFullYear(),
+  date.getUTCMonth(),
+  date.getUTCDate()
+);
+
+const timeOpen = 9 * 60 + 13;
+const timeClose = 17 * 60 + 30;
+
+const currentSeconds = (date.getTime() - startTime) / (1000);
+const currentMinutes = currentSeconds / 60;
+
+const open = currentMinutes >= timeOpen && currentMinutes <= timeClose;
+
+const closeText = currentMinutes > timeOpen ? 'Nos vemos mañana 😥' : 'Abrimos pronto 😃'
+const nextTime = currentMinutes > timeOpen ? 24 * 60 - (currentMinutes-timeOpen) : timeOpen - currentMinutes;
+
+let menu: MenuType | undefined;
+if (open) menu = await getMenu();
 ---
 
 <section class='flex max-w-[90vw] text-zinc-700'>
   <div menu-design class='border-r-2 border-dashed border-zinc-300'></div>
   <div class='flex-grow rounded-r-md bg-zinc-300 p-2'>
-    <span class='flex justify-center text-center text-xl font-bold'
-      >Menu Del Día</span
-    >
-    <div class='my-2 h-[1px] w-full bg-zinc-500'></div>
+    {!open && <div class="flex gap-8 flex-col text-center py-8 px-4">
+      <span class="italic text-lg">Disculpe</span>
+      <h1 class="text-4xl max-w-[10ch] font-bold">{closeText}</h1>
+      <span class="text-9xl">⏰</span>
+      {/* <span>Abrimos los  de  a </span> */}
+      <span time-attrib={nextTime} class="text-xl">Faltan --:-- horas</span>
+    </div>}
     {
-      menu && (
+      open && menu && (
+        <h1 class='flex justify-center text-center text-xl font-bold'>Menu Del Día</h1>
+        <div class='my-2 h-[1px] w-full bg-zinc-500'></div>
         <div class='flex flex-col gap-4 md:flex-row'>
           <div>
             <CategoryMenu foods={menu.menu} title='Principal' />
@@ -29,6 +51,35 @@ const menu = await getMenu();
     }
   </div>
 </section>
+
+<script is:inline>
+  const timer = document.querySelector("span[time-attrib]")
+  if(timer instanceof HTMLSpanElement) {
+    const value = parseFloat(timer.getAttribute('time-attrib'))
+
+    if(!isNaN(value)) {
+      const date = new Date(new Date().getTime() + value * 60 * 1000);
+      setInterval(() => {
+        const totalSeconds = parseInt((date.getTime() - new Date().getTime()) / (1000));
+
+        const hours = Math.floor(totalSeconds / (60 * 60))
+        const minutes = Math.floor((totalSeconds - hours*60*60) / (60))
+        const seconds = Math.floor((totalSeconds - hours*60*60 - minutes * 60))
+
+        if(totalSeconds <= 0 && -totalSeconds < 1000*5) {
+          setTimeout(() => {
+            window.location.replace('/')
+          }, [100])
+        } else {
+          timer.innerText = `Faltan ${hours}h ${minutes}m ${seconds}s`;
+        }
+      }, [1000])
+
+
+    }
+
+  }
+</script>
 
 <style scoped>
   section {

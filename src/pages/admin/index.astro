@@ -1,15 +1,15 @@
 ---
 import AdminLayout from '@/layouts/AdminLayout.astro';
 import MenuView from '@/components/admin/MenuView';
-import LoadingView from '@/components/LoadingView.astro';
-import { getAllFoods, getMenu } from '@/firebase/server';
+import { getAllFoods, getConfig, getMenu } from '@/firebase/server';
+import ConfigView from '@/components/admin/ConfigView';
 
 const menu = await getMenu();
 const foods = await getAllFoods();
+const config = await getConfig();
 ---
 
 <AdminLayout title='Admin Section'>
-  <MenuView menu={menu} foods={foods} client:only='react'>
-    <LoadingView slot='fallback' />
-  </MenuView>
+  <ConfigView config={config} client:visible />
+  <MenuView menu={menu} foods={foods} client:visible />
 </AdminLayout>

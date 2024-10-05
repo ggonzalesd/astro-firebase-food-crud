@@ -1,10 +1,9 @@
+import { saveImage, deleteImage } from '@/cloudinary';
 import {
-  deleteImage,
   deleteOneFood,
   getOneFoodBySlug,
   saveOneFood,
   updateFood,
-  uploadImageBuffer,
 } from '@/firebase/server';
 import { serverAuth } from '@/firebase/server/config';
 import { onlyPrivileges, Privileges } from '@/utils/privileges';
@@ -42,8 +41,8 @@ export const foods = {
 
       if (input.image.length > 1) {
         const imageBuffer = Buffer.from(input.image, 'base64');
-        const imageUrl = await uploadImageBuffer(imageBuffer, one.slug);
-        input.image = imageUrl;
+        const imageUrl = await saveImage(imageBuffer, one.slug);
+        input.image = imageUrl ?? '';
       } else {
         input.image = one.image ?? '';
       }
@@ -95,9 +94,13 @@ export const foods = {
       const { image, ...payload } = input;
 
       const imageBuffer = Buffer.from(image, 'base64');
-      const imageUrl = await uploadImageBuffer(imageBuffer, slug);
+      const imageUrl = await saveImage(imageBuffer, slug);
 
-      const newFood = await saveOneFood({ ...payload, slug, image: imageUrl });
+      const newFood = await saveOneFood({
+        ...payload,
+        slug,
+        image: imageUrl ?? '',
+      });
 
       if (!newFood) {
         throw new ActionError({

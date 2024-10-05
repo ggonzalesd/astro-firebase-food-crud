@@ -17,3 +17,23 @@ declare type MenuType = {
   menu: Array<MenuFoodType>;
   other: Array<MenuFoodType>;
 };
+
+declare type ConfigType = {
+  breakfast: {
+    start: number;
+    end: number;
+  };
+  lunch: {
+    start: number;
+    end: number;
+  };
+  dinner: {
+    start: number;
+    end: number;
+  };
+  updated: number;
+  picking: number;
+  delivery: number;
+  open: boolean;
+  working: boolean;
+};

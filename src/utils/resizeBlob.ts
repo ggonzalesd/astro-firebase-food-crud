@@ -14,15 +14,11 @@ export const resizeBlob = async (blob: Blob, width: number, height: number) => {
       if (context) {
         context.scale(width / img.width, height / img.height);
         context.drawImage(img, 0, 0);
-        canvas.toBlob(
-          (canvasBlob) => {
-            URL.revokeObjectURL(blobUrl);
-            if (canvasBlob) resolve(canvasBlob);
-            else reject(new Error('No Blob found!'));
-          },
-          'image/jpeg',
-          '0.5',
-        );
+        canvas.toBlob((canvasBlob) => {
+          URL.revokeObjectURL(blobUrl);
+          if (canvasBlob) resolve(canvasBlob);
+          else reject(new Error('No Blob found!'));
+        }, 'image/jpeg');
       } else {
         URL.revokeObjectURL(blobUrl);
         reject(new Error('No Context'));

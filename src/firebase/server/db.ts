@@ -5,9 +5,20 @@ import {
 import { serverFirestore } from './config';
 
 import type { Food } from '@/models/food.model';
-import { z } from 'astro:schema';
 
-const foodCollection = serverFirestore.collection('foods').withConverter({
+const names = import.meta.env.PROD
+  ? {
+      foods: 'foods',
+      menu: 'default',
+      config: 'default',
+    }
+  : {
+      foods: 'dev-foods',
+      menu: 'dev',
+      config: 'dev',
+    };
+
+const foodCollection = serverFirestore.collection(names.foods).withConverter({
   toFirestore(doc: Omit<Food, 'id'>): DocumentData {
     return doc;
   },
@@ -97,11 +108,30 @@ const menuCollection = serverFirestore.collection('menu').withConverter({
 });
 
 export const getMenu = async () => {
-  const result = await menuCollection.doc('default').get();
+  const result = await menuCollection.doc(names.menu).get();
   return result.data();
 };
 
 export const setMenu = async (menu: MenuType) => {
-  const result = await menuCollection.doc('default').set(menu);
+  const result = await menuCollection.doc(names.menu).set(menu);
   return result.writeTime;
+};
+
+const configCollection = serverFirestore.collection('config').withConverter({
+  toFirestore(doc: ConfigType): DocumentData {
+    return doc;
+  },
+  fromFirestore(snapshot: QueryDocumentSnapshot): ConfigType {
+    return snapshot.data()! as ConfigType;
+  },
+});
+
+export const updateConfig = async (config: ConfigType) => {
+  const result = await configCollection.doc(names.config).set(config);
+  return result.writeTime;
+};
+
+export const getConfig = async () => {
+  const result = await configCollection.doc(names.config).get();
+  return result.data();
 };
