@@ -27,7 +27,7 @@ export default function DeleteButton({ uid, privileges, setUser }: Props) {
           className='rounded-md bg-red-700 hover:bg-red-600 disabled:pointer-events-none disabled:saturate-0'
           onClick={async () => {
             setDisabled(true);
-            const { data, error } = await actions.auth.deleteUser({
+            const { error } = await actions.auth.deleteUser({
               token: $auth.user?.payload.token ?? '',
               uid: uid,
             });

@@ -24,6 +24,7 @@ const NumbInput = forwardRef<HTMLInputElement, Props>(
       <input
         ref={ref}
         type='number'
+        step={0.1}
         className={cn(
           className,
           'inline-flex rounded-md border border-zinc-400 bg-zinc-300 px-2 disabled:pointer-events-none disabled:opacity-50 disabled:saturate-0',

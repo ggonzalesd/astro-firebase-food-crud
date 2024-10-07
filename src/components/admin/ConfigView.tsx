@@ -15,7 +15,7 @@ export default function ConfigView({ config }: { config?: ConfigType }) {
           e.preventDefault();
           setErr(undefined);
           setDisabled(true);
-          const { data, error } = await actions.config.save(
+          const { error } = await actions.config.save(
             new FormData(e.currentTarget),
           );
           if (isInputError(error)) {
@@ -38,11 +38,11 @@ export default function ConfigView({ config }: { config?: ConfigType }) {
               </span>
             ))}
         </div>
-        <div className='flex items-center justify-center gap-4'>
+        <div className='flex flex-col items-center justify-center gap-4 md:flex-row'>
           <div>
             <div className='flex flex-col'>
               <span>Breakfast</span>
-              <div className='flex gap-4'>
+              <div className='flex flex-col gap-4 md:flex-row'>
                 <label className='flex flex-col'>
                   <span>Start</span>
                   <NumbInput

@@ -96,7 +96,7 @@ export default function PrivilegesTag({ uid, privileges, setUser }: Props) {
                   setError(undefined);
                   setShow(false);
 
-                  const { data, error } = await actions.auth.updateRole({
+                  const { error } = await actions.auth.updateRole({
                     uid,
                     privileges: index,
                     token: $auth.user?.payload.token ?? '',

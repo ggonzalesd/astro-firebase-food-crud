@@ -1,6 +1,16 @@
 ---
-import { getMenu } from '@/firebase/server';
+import { AstroError } from 'astro/errors';
+import { getConfig, getMenu } from '@/firebase/server';
 import CategoryMenu from './CategoryMenu.astro';
+
+type State = 'ERROR' | 'WAIT' | 'SHOW' | 'SOON';
+let state:State = 'ERROR';
+
+const config = await getConfig();
+
+if(!config || !config.working) {
+  state = 'SOON';
+}
 
 const date = new Date(new Date().getTime() - 5 * 60 * 60 * 1000);
 const startTime = Date.UTC(
@@ -9,25 +19,50 @@ const startTime = Date.UTC(
   date.getUTCDate()
 );
 
-const timeOpen = 9 * 60 + 13;
-const timeClose = 17 * 60 + 30;
+const timeOpen = Math.floor((config?.lunch.start ?? 0) * 60);
+const timeClose = Math.floor((config?.lunch.end ?? 0) * 60);
 
 const currentSeconds = (date.getTime() - startTime) / (1000);
 const currentMinutes = currentSeconds / 60;
 
-const open = currentMinutes >= timeOpen && currentMinutes <= timeClose;
+const open = config?.working && (config.open || (currentMinutes >= timeOpen && currentMinutes <= timeClose));
 
-const closeText = currentMinutes > timeOpen ? 'Nos vemos mañana 😥' : 'Abrimos pronto 😃'
+const closeText = currentMinutes > timeOpen ? 'Nos vemos mañana 😁' : 'Abrimos pronto 😃'
 const nextTime = currentMinutes > timeOpen ? 24 * 60 - (currentMinutes-timeOpen) : timeOpen - currentMinutes;
 
+
 let menu: MenuType | undefined;
-if (open) menu = await getMenu();
+if (open) {
+  menu = await getMenu();
+  if(menu) {
+    state = 'SHOW'
+  }
+} else {
+  if(state !== 'SOON')
+    state = 'WAIT'
+}
 ---
 
 <section class='flex max-w-[90vw] text-zinc-700'>
   <div menu-design class='border-r-2 border-dashed border-zinc-300'></div>
   <div class='flex-grow rounded-r-md bg-zinc-300 p-2'>
-    {!open && <div class="flex gap-8 flex-col text-center py-8 px-4">
+    {
+      (state === 'ERROR') && <div class="flex gap-8 flex-col text-center py-8 px-4">
+        <span class="italic text-lg">Disculpe</span>
+        <h1 class="text-4xl max-w-[10ch] font-bold">Surgió un problema</h1>
+        <span class="text-9xl">🥹</span>
+    </div>
+    }
+
+    {
+      (state === 'SOON') && <div class="flex gap-8 flex-col text-center py-8 px-4">
+        <span class="italic text-lg">En espera</span>
+        <h1 class="text-4xl max-w-[10ch] font-bold">Abrimos en unos días 😉</h1>
+        <span class="text-9xl">🍲</span>
+    </div>
+    }
+
+    {(state === 'WAIT') && <div class="flex gap-8 flex-col text-center py-8 px-4">
       <span class="italic text-lg">Disculpe</span>
       <h1 class="text-4xl max-w-[10ch] font-bold">{closeText}</h1>
       <span class="text-9xl">⏰</span>
@@ -35,7 +70,7 @@ if (open) menu = await getMenu();
       <span time-attrib={nextTime} class="text-xl">Faltan --:-- horas</span>
     </div>}
     {
-      open && menu && (
+      (state === 'SHOW') && menu && (
         <h1 class='flex justify-center text-center text-xl font-bold'>Menu Del Día</h1>
         <div class='my-2 h-[1px] w-full bg-zinc-500'></div>
         <div class='flex flex-col gap-4 md:flex-row'>
